@@ -6,9 +6,9 @@ A modern, responsive trading dashboard built with React, Tailwind CSS, and Recha
 
 ## Features
 
-- Real-time market summary display
+- Live market summary cards with price and daily %
 - Interactive line chart for visualizing market trends
-- Customizable watchlist
+- Watchlist with live prices, % change, and filter dropdown
 - Responsive design for desktop and mobile devices
 - Country flags for quick visual reference of market indices
 
@@ -50,13 +50,44 @@ A modern, responsive trading dashboard built with React, Tailwind CSS, and Recha
 
 5. Open your browser and visit `http://localhost:3000` to view the dashboard.
 
+### Live Data (No API Keys)
+
+This dashboard uses free, keyless sources:
+
+- Equities/ETFs: Stooq CSV (close and open for daily %)
+- Crypto: Binance 24h ticker with CoinGecko fallback
+- FX: Frankfurter (latest and previous day) and open.er-api
+
+Optional helpers:
+
+- Generate local aggregated prices file:
+  ```sh
+  npm run prices:update
+  ```
+  Or continuously:
+  ```sh
+  npm run prices:watch
+  ```
+  The file is written to `public/prices.json` and read by the app every ~15 seconds.
+
+- Development Stooq proxy (avoids CORS in dev):
+  ```sh
+  npm run stooq-proxy
+  ```
+  The app will use direct quotes when available; otherwise it prefers `prices.json`.
+
+Notes:
+- Truly real-time equities from browsers without a backend typically require a free API key. If you want consistent live quotes, use IEX Cloud or Finnhub; a small server can proxy those securely. 
+- Recharts XAxis/YAxis defaultProps warnings are benign and do not affect functionality.
+
 ## Usage
 
 The trading dashboard displays market summaries for major indices, an interactive chart, and a watchlist. Users can:
 
-- View real-time market data (mock data used in this demo)
+- View live market data from free sources
 - Interact with the chart to view specific data points
-- Customize the watchlist (functionality to be implemented)
+- Filter the watchlist (All, Equities, Crypto, FX)
+- Customize the watchlist (extend the array in code)
 
 ## Customization
 
@@ -103,5 +134,16 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 - [Recharts](https://recharts.org/)
 - [Lucide React](https://lucide.dev/)
 
+## Build
+
+Create an optimized production build:
+```sh
+npm run build
+```
+Serve locally:
+```sh
+npm install -g serve
+serve -s build
+```
 
 
